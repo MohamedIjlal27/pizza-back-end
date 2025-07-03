@@ -26,12 +26,74 @@ go mod download
 CREATE DATABASE pizza_db;
 ```
 
-4. Run the application:
+4. Configure environment variables:
+Create a `.env` file in the root directory with the following variables:
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=your_postgres_user
+DB_PASSWORD=your_postgres_password
+DB_NAME=pizza_db
+PORT=8080
+```
+
+5. Run database migrations:
+```bash
+go run cmd/api/main.go migrate
+```
+
+6. Run the application:
 ```bash
 go run cmd/api/main.go
 ```
 
-The server will start on `http://localhost:8080`.
+The server will start on `http://localhost:8080` (or the port specified in your .env file).
+
+## Development
+
+### Hot Reload (Optional)
+For development with hot reload, you can use [Air](https://github.com/cosmtrek/air):
+
+1. Install Air:
+```bash
+go install github.com/cosmtrek/air@latest
+```
+
+2. Run the application with Air:
+```bash
+air
+```
+
+### Testing
+Run the tests:
+```bash
+go test ./...
+```
+
+### Debugging
+1. Using VS Code:
+   - Install the Go extension
+   - Add this launch configuration to `.vscode/launch.json`:
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch API",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/api/main.go"
+        }
+    ]
+}
+```
+
+2. Using Delve directly:
+```bash
+go install github.com/go-delve/delve/cmd/dlv@latest
+dlv debug cmd/api/main.go
+```
 
 ## API Endpoints
 
